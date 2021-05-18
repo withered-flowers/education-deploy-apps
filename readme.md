@@ -222,7 +222,60 @@ Setelah selesai menambahkan seluruh environment variabel selanjutnya kita akan m
 yang dimiliki supaya dapat digunakan pada production
 
 #### Modifikasi Kode
+Pada bagian ini kita akan memodifikasi 2 bagian kode yang digunakan dalam aplikasi nodejs.  
+Ceritanya aplikasi nodejs ini dibuat dengan menggunakan expressjs + sequelize, sehingga dalam
+tahap production, ada beberapa kode yang harus dimodifikasi, khususnya pada file `app.js` dan   
+`config/config.json`
 
+Pada file `app.js`, kita harus memodifikasi port yang akan digunakan, umumnya memang pada tahap  
+development, express akan menggunakan port 3000, namun pada saat dideploy, aplikasi ini tentunya  
+akan menggunakan port yang disediakan oleh provider masing masing. umumnya provider akan   
+menggunakan sebuah environment variabel tambahan dengan nama `PORT`, sehingga pada aplikasi   
+express ini kita harus memodifikasinya supaya bisa menerima environment variabel port.
+
+Modifikasi pada `app.js` bisa dilihat pada snippet kode di bawah ini:
+
+```javascript
+// File: app.js
+...
+
+// ubah port sehingga bisa menerima environment variabel dengan nama PORT
+// apabila tidak ditemukan, kembali diset ke port 3000
+const port = process.env.PORT || 3000;
+
+...
+```
+
+Selain itu, pada sequelize, umumnya pada tahap development, yang akan digunakan pada file   
+`config.json` nya adalah konfigurasi tahap development, namun pada saat deployment, yang akan   
+digunakan adalah konfigurasi tahap production. 
+
+Kebetulan, karena kita menggunakan heroku, postgres ini untuk credentialnya sudah menggunakan  
+environment variabel dengan nama `DATABASE_URL` sehingga kita harus mengkonfigurasinya sebagai   
+berikut:
+
+```json
+File: config/config.json
+
+{
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "ssl": true,
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
+```
+
+PS:
+untuk modifikasi json di atas, juga sudah menambahkan options tambahan yang harus digunakan  
+agar deployment pada heroku dapat berjalan dengan baik.
 
 #### Menambahkan script run
 #### Menambahkan file khusus cloud provider
