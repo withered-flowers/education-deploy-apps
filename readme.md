@@ -277,8 +277,88 @@ PS:
 untuk modifikasi json di atas, juga sudah menambahkan options tambahan yang harus digunakan  
 agar deployment pada heroku dapat berjalan dengan baik.
 
+Sampai di tahap ini artinya kita sudah memodifikasi kode expressjs dan konfigurasi sequelize,
+selanjutnya kita akan memodifikasi run script agar dapat berjalan pada deployment.
+
 #### Menambahkan script run
+Pada saat melakukan deployment pada aplikasi berbasis nodejs, tentunya kita harus memiliki sebuah  
+"penjalan" aplikasi, nah "penjalan" aplikasi ini adalah berupa script yang akan dipanggil ketika  
+aplikasi ini akan dijalankan. script ini dapat dilihat pada file `package.json`. Sekarang kita  
+akan memodifikasi file `package.json` supaya bisa memiliki script untuk menjalankan aplikasi.
+
+Hasil modifikasi file `package.json` dapat dilihat sebagai berikut:
+
+```json
+File: package.json
+...
+  "scripts": {
+    "dev": "NODE_ENV=development npx nodemon app.js",
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+...
+```
+
+Pada json di atas, kita menambahkan sebuah script dengan nama `start` yang akan menjalankan   
+perintah `node app.js`.
+
+Sampai di tahap ini kita sudah berhasil menambahkan `run script` untuk aplikasi kita, selanjutnya  
+langkah terakhir, dimana kita menambahkan file khusus untuk provider aplikasi nodejs kita !
+
 #### Menambahkan file khusus cloud provider
+Pada Heroku, supaya dapat berjalan dengan baik, kita akan diminta untuk membuat sebuah file   
+dengan nama `Procfile` (perhatikan huruf besar di awal yah !) yang akan digunakan untuk   
+menjalankan `run script` yang dibuat di atas.
+
+Buatlah sebuah file baru dengan nama `Procfile` yang akan berisi tulisan sebagai berikut:
+
+```javascript
+web: npm start
+```
+
+Sampai pada tahap ini modifikasi kode sudah selesai !
+
+Selanjutnya kita akan mendeploy aplikasi backend yang sudah kita buat ini yah !
+
+### Langkah 6 - Deploy the Apps
+Supaya dapat mendeploy aplikasi kita ke heroku, pertama tama kita harus menggunakan git repo  
+yang disediakan oleh heroku terlebih dahulu. Sebelum itu, kita harus pindah ke directory / folder   
+dimana folder aplikasi kita berada, kemudian kita akan mengetikkan suatu perintah.
+
+Hal ini dapat kita lakukan dengan perintah:
+
+```shell
+heroku git:remote --app NAMA_APLIKASI
+```
+
+sehingga pada contoh ini perintah yang akan digunakan adalah:
+```shell
+heroku git:remote --app learning-deploy-backend
+```
+
+Selanjutnya kita akan melakukan commit dan push ke git seperti kita melakukannya ke git pada  
+normalnya, hanya saja pada saat push, kita akan push ke remote `heroku`
+
+```shell
+git add .
+git commit -m "message here"
+
+# Lihat di sini kita akan push ke remote dengan nama heroku branch master yang ada di local
+# sesuaikan dengan branch yang dimiliki yah !
+git push heroku master
+```
+
+Tunggu sebentar kemudian diinfokan bahwa deployment sudah selesai dan sudah siap digunakan  
+aplikasi kita !
+
+Kita sudah bisa membuka aplikasi yang dideploy pada alamat https://namaaplikasi.herokuapp.com loh !
+
+Tapi apakah benar demikian? tentunya saja ......... *tydaque* yah.
+
+Hal ini terjadi karena kita belum melakukan inisialisasi terhadap database postgres yang  
+digunakan.
+
+### Langkah 7 - Inisialisasi Tabel Database
 
 ### Frontend with Firebase
 
