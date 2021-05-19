@@ -129,7 +129,7 @@ Creating ⬢ learning-deploy-backend... done
 https://learning-deploy-backend.herokuapp.com/ | https://git.heroku.com/learning-deploy-backend.git
 ```
 
-### Langkah 4 - Menambahkan atau menyediakan database
+#### Langkah 4 - Menambahkan atau menyediakan database
 Tergantung dari provider yang digunakan, maka untuk ketersediaan database caranya akan berbeda  
 untuk cara instalasi dan penggunaannya. Pada heroku sendiri, penggunaan database postgres juga  
 *kebetulan* disediakan secara *gratis*, namun kita perlu mengaktifkannya dengan menggunakan 
@@ -161,7 +161,7 @@ Database has been created and is available
 Created postgresql-xxxx-xxxxx as DATABASE_URL
 ```
 
-### Langkah 5 - Modifikasi Kode untuk Deployment
+#### Langkah 5 - Modifikasi Kode untuk Deployment
 Pada saat melakukan deployment, tentunya ada beberapa konfigurasi khusus yang harus kita lakukan  
 yang berbeda dari tahap development, seperti:
 - Konfigurasi Environment Variabel
@@ -172,7 +172,7 @@ yang berbeda dari tahap development, seperti:
 Pada langkah ini kita akan memodifikasi kode yang digunakan untuk tahap production agar siap   
 untuk dideploy tanpa masalah !
 
-#### Konfigurasi Environment Variabel
+##### Konfigurasi Environment Variabel
 Pada saat tahap development tentunya kita menggunakan file dotenv (.env) sebagai penyimpan data  
 sensitif kita bukan? namun pada tahap production, kita tidak akan menggunakan hal tersebut lagi.
 
@@ -221,7 +221,7 @@ SECRET: inisangatamansekali
 Setelah selesai menambahkan seluruh environment variabel selanjutnya kita akan memodifikasi kode  
 yang dimiliki supaya dapat digunakan pada production
 
-#### Modifikasi Kode
+##### Modifikasi Kode
 Pada bagian ini kita akan memodifikasi 2 bagian kode yang digunakan dalam aplikasi nodejs.  
 Ceritanya aplikasi nodejs ini dibuat dengan menggunakan expressjs + sequelize, sehingga dalam
 tahap production, ada beberapa kode yang harus dimodifikasi, khususnya pada file `app.js` dan   
@@ -280,7 +280,7 @@ agar deployment pada heroku dapat berjalan dengan baik.
 Sampai di tahap ini artinya kita sudah memodifikasi kode expressjs dan konfigurasi sequelize,
 selanjutnya kita akan memodifikasi run script agar dapat berjalan pada deployment.
 
-#### Menambahkan script run
+##### Menambahkan script run
 Pada saat melakukan deployment pada aplikasi berbasis nodejs, tentunya kita harus memiliki sebuah  
 "penjalan" aplikasi, nah "penjalan" aplikasi ini adalah berupa script yang akan dipanggil ketika  
 aplikasi ini akan dijalankan. script ini dapat dilihat pada file `package.json`. Sekarang kita  
@@ -305,7 +305,7 @@ perintah `node app.js`.
 Sampai di tahap ini kita sudah berhasil menambahkan `run script` untuk aplikasi kita, selanjutnya  
 langkah terakhir, dimana kita menambahkan file khusus untuk provider aplikasi nodejs kita !
 
-#### Menambahkan file khusus cloud provider
+##### Menambahkan file khusus cloud provider
 Pada Heroku, supaya dapat berjalan dengan baik, kita akan diminta untuk membuat sebuah file   
 dengan nama `Procfile` (perhatikan huruf besar di awal yah !) yang akan digunakan untuk   
 menjalankan `run script` yang dibuat di atas.
@@ -320,7 +320,7 @@ Sampai pada tahap ini modifikasi kode sudah selesai !
 
 Selanjutnya kita akan mendeploy aplikasi backend yang sudah kita buat ini yah !
 
-### Langkah 6 - Deploy the Apps
+#### Langkah 6 - Deploy the Apps
 Supaya dapat mendeploy aplikasi kita ke heroku, pertama tama kita harus menggunakan git repo  
 yang disediakan oleh heroku terlebih dahulu. Sebelum itu, kita harus pindah ke directory / folder   
 dimana folder aplikasi kita berada, kemudian kita akan mengetikkan suatu perintah.
@@ -358,9 +358,54 @@ Tapi apakah benar demikian? tentunya saja ......... *tydaque* yah.
 Hal ini terjadi karena kita belum melakukan inisialisasi terhadap database postgres yang  
 digunakan.
 
-### Langkah 7 - Inisialisasi Tabel Database
+#### Langkah 7 - Inisialisasi Tabel Database
+Ketika kita membuka aplikasi yang dideploy pada alamat yang sudah diberikan oleh heroku,   
+berdasarkan kode yang ada, tentunya akan muncul error `SequelizeDatabaseError`, yang menyatakan  
+bahwa ada kesalahan pada database yang kita gunakan.
+
+Hal ini terjadi karena kita belum menginisialisasi database yang digunakan, atau database masih  
+dalam bentuk *kosongan*.
+
+Untuk itu kita harus menginisialisasi tabel yang ada pada database kita.
+
+Pada komputer lokal, hal ini bisa kita lakukan langsung dengan cara membuka terminal,   
+mengarahkan ke folder yang kita gunakan, kemudian menggunakan perintah `sequelize` untuk    
+melakukan hal tersebut, tapi, bagaimanakah bila kita menggunakan heroku?
+
+Pada heroku kita bisa menggunakan terminal pada server remote yang disediakan oleh heroku.  
+Untuk bisa mengakses terminal tersebut kita bisa menggunakan perintah:
+
+```shell
+heroku run bash 
+```
+
+setelah menggunakan perintah ini, akan diberikan terminal bash yang dapat digunakan untuk   
+menggunakan perintah `sequelize` dan nodejs pada heroku.
+
+Selanjutnya kita akan meng-install kembali package yang diperlukan untuk menjalankan `sequelize`  
+dengan perintah nodejs pada umumnya
+
+```shell
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+``` 
+
+Perhatikan pada perintah di atas ada beberapa perubahan perintah yang dituliskan:
+1. Kita menuliskan perintah secara lengkap `sequelize-cli` bukan `sequelize`, karena npx yang  
+   ada di server heroku tidak mengetahui alias `sequelize-cli` menjadi `sequelize`.
+2. Kita tidak menuliskan perintah `npx sequelize-cli db:create` lagi, karena pada heroku,   
+   postgres yang dibuat sudah memiliki nama database tersendiri, jadi kita tinggal menggunakannya  
+   saja.
+
+Apabila sudah selesai mengkonfigurasi dan menginisialisasi tabel yang digunakan, kita menggunakan  
+perintah `exit` untuk kembali ke terminal pada komputer lokal kita.
+
+Sampai pada titik ini selesai sudah tahapan deploy aplikasi backend kita pada heroku ! Hore !!!
+
+Selanjutnya adalah tahapan untuk deploy aplikasi frontend kita pada Firebase.
 
 ### Frontend with Firebase
+
 
 ## Referensi
 - https://devcenter.heroku.com/articles/heroku-cli
