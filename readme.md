@@ -25,7 +25,8 @@ karena kita akan developer yang *cerdik* ~~dan pelit~~
 
 ### Backend with Heroku
 Pertama-tama kita akan mencoba untuk mendeploy backendnya terlebih dahulu. Untuk kode dari   
-backend ini bisa dilihat pada tautan **[--------------------------**.
+backend ini bisa dilihat pada tautan 
+[ini](https://github.com/withered-flowers/education-deploy-apps/tree/master/src/backend)
 
 Ada banyak sekali tempat atau *cloud provider* yang menyediakan hosting aplikasi backend seperti  
 AWS, GCP, Glitch, dkk. Namun yang akan kita gunakan pada pembelajaran ini adalah dengan   
@@ -405,9 +406,70 @@ Sampai pada titik ini selesai sudah tahapan deploy aplikasi backend kita pada he
 Selanjutnya adalah tahapan untuk deploy aplikasi frontend kita pada Firebase.
 
 ### Frontend with Firebase
+Sama seperti dengan backend, ada banyak cloud provider yang menyediakan fitur untuk mendeploy  
+aplikasi web yang sudah kita buat secara gratis seperti Vercel, Surge, Netlify, dan Firebase.
 
+Pada pembelajaran ini kita akan mendeploy aplikasi frontend kita dengan menggunakan Firebase,   
+lebih tepatnya adalah `Firebase Hosting`.
+
+Firebase sendiri adalah suatu produk Google yang berisi sekumpulan fitur yang dapat mempermudah  
+developer dalam membuat aplikasi, seperti storage, database, authentication, dan hosting.
+
+Langkah-langkah deploynya adalah sebagai berikut:
+
+#### Langkah 1 - Instalasi Firebase CLI
+Pertama-tama, sebelum melakukan deployment, kita akan menginstall firebase-cli terlebih dahulu.  
+Lagi-lagi cara termudah untuk menginstall firebase-cli adalah dengan menggunakan `npm`, dengan  
+menggunakan perintah:
+
+```shell
+npm install -g firebase-tools
+```
+
+atau (untuk pengguna yarn) 
+
+```shell
+yarn global add firebase-tools
+```
+
+Sebenarnya ada cara lainnya untuk instalasi tanpa membutuhkan `npm`, untuk melihat cara lain  
+untuk instalasi Firebase CLI bisa dilihat pada tautan [ini](https://firebase.google.com/docs/cli).
+
+Kemudian setelah menginstall firebase-cli ini, kita bisa mengecek apakah firebase-cli ini sudah  
+terpasang dengan mengecek version yang terpasang dengan perintah:
+
+```shell
+firebase --version
+```
+
+Dan akan muncul output yang kira kira seperti ini  
+(output bisa berbeda tergantung versi dan os yang digunakan)
+
+```shell
+9.11.0
+```
+
+#### Langkah 2 - Login Firebase
+Langkah selanjutnya adalah kita akan login ke firebase dengan menggunakan perintah
+
+```shell
+firebase login
+```
+
+Kemudian akan terbuka browser dan diminta untuk melakukan login dengan menggunakan akun GMail.  
+(Firebase tidak dapat menggunakan non-interactive / non-browser mode yah !)
+
+
+Pastikan sampai di tahap ini kita sudah selesai logged in seperti informasi berikut:
+
+```shell
+Waiting for authentication...
+
+✔  Success! Logged in as xxxx@xxxxx.com
+```
 
 ## Referensi
 - https://devcenter.heroku.com/articles/heroku-cli
 - https://devcenter.heroku.com/articles/getting-started-with-nodejs
 - https://elements.heroku.com/addons/heroku-postgresql
+- https://firebase.google.com/docs/cli
