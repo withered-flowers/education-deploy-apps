@@ -505,29 +505,6 @@ Firebase console is available at
 https://console.firebase.google.com/project/xxxx/overview
 ```
 
-<!-- Selanjutnya kita akan membuat aplikasi yang akan dideploy dan ditempel pada project tersebut.  
-
-Hal ini dapat dilakukan dengan menggunakan perintah:
-
-```shell
-firebase apps:create web NAMA_APPS_YANG_AKAN_DITAMPILKAN --project NAMA_PROJECT
-```
-
-Output dari perintah ini adalah:
-```shell
-Create your WEB app in project xxxx:
-✔ Creating your Web app
-
-🎉🎉🎉 Your Firebase WEB App is ready! 🎉🎉🎉
-
-App information:
-  - App ID: n:nnnnnnnn
-  - Display name: yyyyyy
-
-You can run this command to print out your new app's Google Services config:
-  firebase apps:sdkconfig WEB n:nnnnnnnn
-``` -->
-
 #### Langkah 4 - Modifikasi Kode untuk Deployment
 Sama seperti deployment backend pada heroku, untuk deployment frontend pada firebase, kita juga  
 akan melakukan beberapa modifikasi kode supaya siap untuk dideploy.
@@ -689,9 +666,9 @@ Kemudian kita tinggal mencoba untuk membuka aplikasi yang sudah dihosting pada U
 dan *voila* aplikasi sudah terdeploy !
 
 Sampai pada tahap ini artinya kita sudah berhasil mendeploy aplikasi backend dan frontend  
-yang ada pada tempat yang terpisah !
+yang ada pada tempat yang terpisah dan hampir semuanya menggunakan CLI saja !
 
-S-E-L-A-M-A-T !
+Selamat !
 
 ## Referensi
 - https://devcenter.heroku.com/articles/heroku-cli
