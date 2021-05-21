@@ -1,9 +1,21 @@
 <template>
-  <div>Hello World</div>
+  <div>
+    <homepage></homepage>
+  </div>
 </template>
 
 <script>
-export default {};
+import Homepage from "./views/Homepage";
+
+export default {
+  components: {
+    homepage: Homepage,
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+};
 </script>
 
 <style scoped></style>

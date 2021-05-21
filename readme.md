@@ -468,6 +468,11 @@ Waiting for authentication...
 ✔  Success! Logged in as xxxx@xxxxx.com
 ```
 
+#### Langkah 3 - Modifikasi Kode untuk Deployment
+
+- Modif Base Endpoint
+- 
+
 ## Referensi
 - https://devcenter.heroku.com/articles/heroku-cli
 - https://devcenter.heroku.com/articles/getting-started-with-nodejs
