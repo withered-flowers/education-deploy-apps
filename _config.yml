@@ -1,0 +1,11 @@
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
+include:
+  - readme.md
+theme: jekyll-theme-cayman
+title: Deployment Aplikasi dengan Heroku dan Firebase
+baseurl: "education-deploy-apps"
+url: ""
