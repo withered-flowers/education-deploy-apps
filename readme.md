@@ -4,6 +4,12 @@
     * [Backend with Heroku](#backend-with-heroku)
     * [Frontend with Firebase](#frontend-with-firebase)
 
+## Persyaratan Dasar
+- Mengerti dasar-dasar terminal
+- Sudah menginstall nodejs
+- Sudah menginstall package nodejs `parcel-bundler` secara global, bisa dilihat pada tautan 
+  [ini](https://parceljs.org/getting_started.html) 
+  
 ## What is Production
 Ketika ketika mengembangkan aplikasi kita, pasti harapannya aplikasi tersebut akan dilihat oleh  
 orang lain bukan?  
@@ -468,10 +474,224 @@ Waiting for authentication...
 ✔  Success! Logged in as xxxx@xxxxx.com
 ```
 
-#### Langkah 3 - Modifikasi Kode untuk Deployment
+#### Langkah 4 - Membuat Project dan Apps
+Langkah selanjutnya adalah kita akan membuat project dan nama aplikasi yang akan dideploy pada  
+firebase.
 
-- Modif Base Endpoint
-- 
+Supaya dapat melakukan hosting frontend kita pada firebase, kita akan diminta untuk membuat sebuah  
+project sebagai unique identifier dari aplikasi frontend yang akan di-deploy.
+
+Hal ini dapat dilakukan dengan menggunakan perintah:
+
+```shell
+firebase projects:create NAMA_PROJECT
+```
+
+dan tekan tombol enter untuk melanjutkan pada saat ditanyakan 
+`What would you like to call your project?`
+
+Output dari perintah ini adalah:
+```shell
+✔ Creating Google Cloud Platform project
+✔ Adding Firebase resources to Google Cloud Platform project
+
+🎉🎉🎉 Your Firebase project is ready! 🎉🎉🎉
+
+Project information:
+   - Project ID: xxxx
+   - Project Name: xxxx
+
+Firebase console is available at
+https://console.firebase.google.com/project/xxxx/overview
+```
+
+<!-- Selanjutnya kita akan membuat aplikasi yang akan dideploy dan ditempel pada project tersebut.  
+
+Hal ini dapat dilakukan dengan menggunakan perintah:
+
+```shell
+firebase apps:create web NAMA_APPS_YANG_AKAN_DITAMPILKAN --project NAMA_PROJECT
+```
+
+Output dari perintah ini adalah:
+```shell
+Create your WEB app in project xxxx:
+✔ Creating your Web app
+
+🎉🎉🎉 Your Firebase WEB App is ready! 🎉🎉🎉
+
+App information:
+  - App ID: n:nnnnnnnn
+  - Display name: yyyyyy
+
+You can run this command to print out your new app's Google Services config:
+  firebase apps:sdkconfig WEB n:nnnnnnnn
+``` -->
+
+#### Langkah 4 - Modifikasi Kode untuk Deployment
+Sama seperti deployment backend pada heroku, untuk deployment frontend pada firebase, kita juga  
+akan melakukan beberapa modifikasi kode supaya siap untuk dideploy.
+
+Pada frontend ini sendiri kode yang diubah (apabila dibuat dengan cukup baik), adalah hanya  
+memodifikasi base endpoint nya saja.
+
+Sehingga pada kode frontend kita ini, cukup hanya dengan membuka file   
+`frontend/src/main.js`
+
+```javascript
+// File: src/main.js
+
+// TODO: Change baseEndpoint to the project on cloud provider
+// Heroku = https://xxxx.herokuapp.com
+Vue.prototype.$baseEndpoint = "http://localhost:10000";
+```
+
+dan pada kode ini kita akan mengganti baseEndpoint menjadi endpoint herokuapp yang sudah
+di-deploy sebelumnya, yaitu `https://learning-deploy-backend.herokuapp.com`
+
+sehingga kode frontend kita ini sekarang akan menjadi
+
+```javascript
+// File: src/main.js
+
+// TODO: Change baseEndpoint to the project on cloud provider
+// Heroku = https://xxxx.herokuapp.com
+Vue.prototype.$baseEndpoint = "https://learning-deploy-backend.herokuapp.com";
+```
+
+Perhatikan pada alamat di atas, kita menggunakan HTTPS dan sudah tidak menggunakan port lagi.
+
+#### Langkah 5 - Build the Apps
+Dikarenakan kita menggunakan vuejs di dalam aplikasi frontend ini, maka kita perlu untuk mmembuat  
+atau mem-`bundle` aplikasinya terlebih dahulu. 
+
+Dalam pembelajaran kali ini, kita akan membundle aplikasi frontend kita dengan `parcel`.
+
+Kita akan memodifikasi file `package.json` dan menambahkan perintah untuk mem-bundle aplikasi   
+dalam mode production.
+
+Modifikasi kode pada file package.json dapat dilihat di bawah ini
+
+```json
+File src/frontend/package.json
+
+...
+scripts: {
+  "dev": ...,
+  "test": ...,
+  "build": "parcel build index.html -d www"
+}
+```
+
+Dengan menambahkan perintah atau run script `build` tersebut, kita akan mem-bundle aplikasi  
+frontend yang dibuat dan diletakkan pada folder `www` di dalam folder aplikasi frontend.
+
+Kemudian kita akan menjalankan script `build` tersebut dengan cara:
+
+```shell
+npm run build
+```
+
+Output dari perintah di atas adalah sebagai berikut:
+
+```shell
+npm run build
+
+frontend@1.0.0 build
+parcel build index.html -d www
+
+✨  Built in 5.12s.
+
+www/main.0437f4f8.js.map     445.64 KB    529ms
+www/main.0437f4f8.js         116.18 KB    3.36s
+www/main.b7906b4d.css          3.84 KB    208ms
+www/main.b7906b4d.css.map       1.8 KB     55ms
+www/index.html                   453 B    130ms
+```
+
+Perhatikan bahwa pada langkah ini, akan terbentuk sebuah folder baru dengan nama `www` yang berisi  
+file yang akan digunakan untuk deploy pada firebase.
+
+#### Langkah 6 - Deploy the Apps
+Langkah selanjutnya adalah kita akan men-deploy aplikasi frontend kita pada firebase.
+
+Untuk inikita akan menginisialisasi konfigurasi firebase project dengan menggunakan perintah:
+
+```shell
+firebase init hosting
+```
+
+Kemudian akan diberikan panduan untuk memilih fitur fitur dan project mana yang akan digunakan:
+```shell
+=== Project Setup
+
+First, let's associate this project directory with a Firebase project.
+You can create multiple project aliases by running firebase use --add, 
+but for now we'll just set up a default project.
+
+? Please select an option: (Use arrow keys)
+# pada pertanyaan ini, pilih project yang sudah ada
+Use an existing project
+# kemudian kita akan memilih nama Firebase project yang pada langkah awal dibuat
+NAMA_PROJECT
+
+=== Hosting Setup
+
+Your public directory is the folder (relative to your project directory) that
+will contain Hosting assets to be uploaded with firebase deploy. If you
+have a build process for your assets, use your build's output directory.
+
+? What do you want to use as your public directory? (public) 
+# Gunakan folder www yang tadi sudah dibuat
+www
+
+? Configure as a single-page app (rewrite all urls to /index.html)? (y/N) 
+No
+
+? Set up automatic builds and deploys with GitHub?
+No
+
+File www/index.html already exists. Overwrite? 
+No
+```
+
+Secara otomatis akan dibuatkan dua buah file pada folder frontend kita, yaitu `.firebaserc`  
+dan `firebase.json` yang akan digunakan oleh firebase cli dalam mendeploy aplikasi kita.
+
+Selanjutnya kita akan mendeploy aplikasi ke firebase dengan perintah:
+
+```
+firebase deploy
+```
+
+Kemudian kita hanya butuh untuk menunggu hingga deploy selesai, dan akan diberikan informasi  
+link hosting aplikasi frontend kita
+
+```shell
+=== Deploying to 'xxxxx'...
+
+i  deploying hosting
+i  hosting[xxxxx]: beginning deploy...
+i  hosting[xxxxx]: found 8 files in www
+✔  hosting[xxxxx]: file upload complete
+i  hosting[xxxxx]: finalizing version...
+✔  hosting[xxxxx]: version finalized
+i  hosting[xxxxx]: releasing new version...
+✔  hosting[xxxxx]: release complete
+
+✔  Deploy complete!
+
+Project Console: https://console.firebase.google.com/project/xxxxx/overview
+Hosting URL: https://xxxxx.web.app
+```
+
+Kemudian kita tinggal mencoba untuk membuka aplikasi yang sudah dihosting pada URL tersebut  
+dan *voila* aplikasi sudah terdeploy !
+
+Sampai pada tahap ini artinya kita sudah berhasil mendeploy aplikasi backend dan frontend  
+yang ada pada tempat yang terpisah !
+
+S-E-L-A-M-A-T !
 
 ## Referensi
 - https://devcenter.heroku.com/articles/heroku-cli
