@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend JQuery</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="flex flex-col items-center mx-auto" id="content">
+    <p class="pt-4 pb-4 text-gray-100 hover:text-gray-500" id="secret-key"></p>
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>E-Mail</th>
+          <th>DOB</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody id="table-content"></tbody>
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script language="javascript">
+    const baseUrl = "http://localhost:10000";
+
+    function initTable() {
+      $.ajax(`${baseUrl}/`)
+        .done(function (data) {
+          let secretKey = data.message.secret || "NO SECRET";
+          let dataTable = data.message.data; // array of object
+
+          let tableContent = "";
+
+          dataTable.forEach(datum => {
+            tableContent += "<tr>";
+            tableContent += `<td>${datum.id}</td>`;
+            tableContent += `<td>${datum.first_name} ${datum.last_name}</td>`;
+            tableContent += `<td>${datum.email}</td>`;
+            tableContent += `<td>${datum.dob}</td>`;
+            tableContent += `<td>${datum.phone}</td>`;
+            tableContent += "</tr>";
+          });
+
+          $("#secret-key").html(`Secret Code: ${secretKey}`);
+          $("#table-content").append(tableContent);
+        })
+        .fail(function (err) {
+          Swal.fire('Error !', "Something wicked happened", 'error');
+          console.log(err);
+        });
+    }
+
+    $(document).ready(function () {
+      initTable();
+    });
+  </script>
+</body>
+
+</html>
