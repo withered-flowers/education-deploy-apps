@@ -351,7 +351,15 @@ git add .
 git commit -m "message here"
 
 # Lihat di sini kita akan push ke remote dengan nama heroku branch master yang ada di local
-# sesuaikan dengan branch yang dimiliki yah !
+
+# git push <remote> <local_branch>:<remote_branch>
+# bila local branch dan remote branch sama
+# bisa diabaikan
+
+# contoh di bawah ini adalah
+# push ke remote "heroku", 
+# dengan local branch DAN remote branch bernama "master"
+# Disesuaikan dengan branch yang dimiliki yah !
 git push heroku master
 ```
 
@@ -543,6 +551,8 @@ Dikarenakan kita menggunakan vuejs di dalam aplikasi frontend ini, maka kita per
 atau mem-`bundle` aplikasinya terlebih dahulu. 
 
 Dalam pembelajaran kali ini, kita akan membundle aplikasi frontend kita dengan `parcel`.
+
+(Apabila menggunakan bundler yang lain, e.g. webpack / vite, disesuaikan saja yah !)
 
 Kita akan memodifikasi file `package.json` dan menambahkan perintah untuk mem-bundle aplikasi   
 dalam mode production.
