@@ -363,6 +363,21 @@ Perhatikan pada perintah di atas ada beberapa perubahan perintah yang dituliskan
 
 Apabila sudah selesai mengkonfigurasi dan menginisialisasi tabel yang digunakan, kita menggunakan perintah `exit` untuk kembali ke terminal pada komputer lokal kita.
 
+**UPDATE 21 Juli 2022 - Credit to @trayand for finding the bugs**
+
+Terkadang, ketika menggunakan `heroku run bash` dan menggunakan perintah `npx sequelize-cli`, bisa mendapatkan error: `command not found: npx`.
+
+Nah solusinya adalah dengan **TIDAK** menggunakan `heroku run bash` (bagi yang sudah terlanjut menggunakan perintah ini silahkan `exit` terlebih dahulu), dan menjalankan perintah `npx sequelize-cli` dengan cara:
+
+```shell
+heroku run npx sequelize-cli db:migrate
+heroku run npx sequelize-cli db:seed:all
+```
+
+Dan masalah untuk `command not found` ini bisa tersolusikan dengan baik !
+
+**END OF UPDATE**
+
 Sampai pada titik ini selesai sudah tahapan deploy aplikasi backend kita pada heroku ! Hore !!!
 
 Selanjutnya adalah tahapan untuk deploy aplikasi frontend kita pada Firebase.
