@@ -571,21 +571,17 @@ Sebagai gantinya kita akan mengkonfigurasi environment variable tersebut secara 
 
 Sayangnya pada Railway, kita tidak dapat mengkonfigurasi pada server secara langsung, sehingga kita perlu mengkonfigurasi environment variable via cli ataupun GUI (browser).
 
-Nah sebelum bisa mengkonfigurasi environment variable tersebut via cli, kita harus melakukan "deployment" (membuat service) terlebih dahulu aplikasi yang dimiliki dengan menggunakan perintah:
+Di dalam Railway ini sendiri, `environment variables` disimpan dalam sebuah `service` tertentu.
 
-```shell
-railway up
-```
-
-Setelah itu baru kita bisa meng-set environment variable dengan cara 
+Karena tadi kita baru saja meng-set sebuah service yang kosongan, maka kita bisa meng-set environment variable dengan perintah:
 
 ```shell
 railway variables set KEY1=VALUE1 KEY2=VALUE2
 ```
 
 Untuk pembelajaran ini, kita sekarang akan memasukkan 2 variable sekaligus:
-- DATABASE_URL = URI dari postgres yang ada di supabase
-- SECRET = secret key yang digunakan dalam aplikasi backend.
+- `DATABASE_URL` = URI dari postgres yang ada di supabase
+- `SECRET` = secret key yang digunakan dalam aplikasi backend.
 
 Sehingga perintah yang digunakan adalah:
 
@@ -602,6 +598,13 @@ SECRET:       inisudahcukupamanlah
 ```
 
 Setelah selesai menambahkan seluruh environment variable yang ada, selanjutnya kita akan melakukan modifikasi kode yang dimiliki supaya bisa digunakan di production.
+
+PS:
+- Apabila ingin meng-set environment variable untuk service yang lainnya, maka kita bisa menggunakan opsi `-s`, e.g.:
+
+```shell
+railway variables set -s NAMA_SERVICE KEY1=VALUE1 KEY2=VALUE2
+```
 
 ##### Modifikasi Kode
 Pada bagian ini kita akan memodifikasi 2 bagian kode yang digunakan dalam aplikasi nodejs.  
@@ -686,7 +689,7 @@ PS:
 - Pastikan ketika menggunakan perintah di atas, pada folder yang kita miliki di komputer lokal kita sudah ada `node_modules` nya yah !
 - Bila belum ada, pastikan `npm install` terlebih dahulu package.json yang dibutuhkan di local !
 
-Selanjutnya kita akan menambahkan sedikit script yang dibutuhkan untuk menjalankan aplikasi kita sebelum bisa melakukan deploy aplikasi
+Selanjutnya kita akan menambahkan sedikit script yang dibutuhkan untuk menjalankan aplikasi kita sebelum bisa melakukan deploy aplikasi.
 
 ##### Menambahkan script run
 Pada saat melakukan deployment pada aplikasi berbasis nodejs, tentunya kita harus memiliki sebuah "penjalan" aplikasi, 
