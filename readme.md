@@ -1,7 +1,9 @@
 ## Table of Content
 1. [What is Production](#what-is-production)
 1. [How to Deploy](#how-to-deploy)
-    * [Backend with Heroku](#backend-with-heroku)
+    * [Deprecated Backend with Heroku](#deprecated-backend-with-heroku)
+    * [Database with Supabase](#database-with-supabase)
+    * [Backend with Railway](#backend-with-railway)
     * [Frontend with Firebase](#frontend-with-firebase)
 
 ## Persyaratan Dasar
@@ -21,7 +23,14 @@ Pada pembelajaran ini, kita akan mencoba untuk men-*deploy* sebuah aplikasi sede
 
 Untuk deployment ini kita tidak akan terlalu repot dan tidak mengeluarkan uang *sepeserpun* yah karena kita akan developer yang *cerdik* ~~dan pelit~~
 
-### Backend with Heroku
+### [DEPRECATED] Backend with Heroku
+
+---
+Per tanggal 28 November 2022 Heroku sudah tidak menyediakan lagi Free Tier nya !
+---
+Loncat ke [Database with Supabase](#database-with-supabase)
+---
+
 Pertama-tama kita akan mencoba untuk mendeploy backendnya terlebih dahulu. Untuk kode dari backend ini bisa dilihat pada tautan [ini](https://github.com/withered-flowers/education-deploy-apps/tree/master/src/backend)
 
 Ada banyak sekali tempat atau *cloud provider* yang menyediakan hosting aplikasi backend seperti AWS, GCP, Glitch, dkk. Namun yang akan kita gunakan pada pembelajaran ini adalah dengan menggunakan Heroku karena:
@@ -381,6 +390,52 @@ Dan masalah untuk `command not found` ini bisa tersolusikan dengan baik !
 Sampai pada titik ini selesai sudah tahapan deploy aplikasi backend kita pada heroku ! Hore !!!
 
 Selanjutnya adalah tahapan untuk deploy aplikasi frontend kita pada Firebase.
+
+### Database with Supabase
+
+Untuk membuat sebuah aplikasi yang baik, umumnya kita harus memisahkan tempat tempat deployment yang kita miliki supaya "seakan-akan" kita mengikut trend yang kekinian: `microservices`.
+
+Nah oleh sebab itu, sekarang ini kita pun akan mencoba untuk mendeploy aplikasi kita ke tiga tempat yang berbeda:
+- Databasenya akan kita pisah sendiri
+- Server Backendnya akan kita taruh di tempat yang lainnya
+- Hosting Frontendnya pun akan kita taruh di tempat lainnya
+
+(Sebenarnya ini alasan dasarnya adalah karena kita adalah .... developer yang pelit yang mau deploy aplikasi secara gratis tis tis tis tis !)
+
+Berdasarkan `hype` di atas, mari kita coba untuk mendeploy aplikasi kita, dimulai dari kita mencoba untuk membuat databasenya terlebih dahulu yah !
+
+Untuk bisa menaruh database kita di internet, maka kita akan menggunakan suatu servis yang disediakan oleh [Supabase](https://supabase.com/) yang memiliki (lagi lagi...) Free Tier yang cukup untuk menunjang kita dalam membuat aplikasi.
+
+Langkah-langkah yang diperlukan untuk menaruh database kita ke supabase adalah seperti berikut:
+
+#### Langkah 1 - Inisialisasi Project di Supabase
+1. Membuka tautan [Supabase](https://supabase.com) dan lakukan registrasi (link dengan account github)
+1. Membuat sebuah `Organization` yang baru di dalam supabase yang akan mengepalai project yang akan kita buat untuk menaruh database
+1. Membuat sebuah `Project` yang baru di dalam supabase dan memasukkan `database password` yang diwajibkan (password diminta untuk kuat yah, jadi jangan masukkan password nya adalah `password` atau `bismillah` atau `aminaminamin` yah !)
+1. Memilih **Region** menjadi `West US - North California` (supaya nanti dekat dengan Backend kita)
+1. Untuk **Pricing Plan** tentu saja kita akan memilih yang `Free - 0$ / Month`
+1. Kemudian tekan tombol `Create new project` dan menunggu dengan sabar.
+1. Setelah selesai, kita akan diberikan halaman dashboard dari akun Supabase yang kita miliki dan di bawah lambang `petir hijau` akan ada banyak sekali icon. Pilih icon yang berupa `Gear` yang bertuliskan `Project Setting`
+1. Pada halaman Project Setting, pilih navigasi dengan tulisan `Database` kemudian scroll ke bawah sampai ada tulisan `Connection String`
+1. Pada Connection String, pilih yang berupa `URI` kemudian copy string yang diberikan oleh supabase ke dalam notepad terlebih dahulu, e.g.: `postgresql://postgres:[YOUR-PASSWORD]@db.xxxxxxxxxxxxx.supabase.co:5432/postgres`, jangan lupa untuk mengganti `[YOUR-PASSWORD]` dengan password yang baru saja diinput untuk password database.
+1. Sampai pada tahap ini maka inisialisasi project di supabase kita sudah selesai !
+
+#### Langkah 2 - Konfigurasi Sequelize untuk Production
+1. Selanjutnya kita akan masuk ke ranah aplikasi kita
+1. Membuka konfigurasi sequelize pada `/config/config.json` dan memodifikasi environment untuk `production`:
+    ```json
+    production: {
+      "use_env_variable": "DATABASE_URL",
+      "dialect": "postgres",
+      "protocol": "postgres"
+    }
+    ```
+1. Maksud dari konfigurasi di atas adalah, pada mode `production`, sequelize akan menggunakan environment variable bernama `DATABASE_URL` untuk melakukan koneksi ke database yang digunakan
+1. Sampai pada titik ini artinya untuk konfigurasi sequelize sudah selesai, selanjutnya kita akan beralih untuk deploy aplikasi backend kita.
+1. (Sampai di sini pada production database belum ada tabel apapun yah !)
+
+### Backend with Railway
+Pada bagian ini kita akan mencoba untuk 
 
 ### Frontend with Firebase
 Sama seperti dengan backend, ada banyak cloud provider yang menyediakan fitur untuk mendeploy aplikasi web yang sudah kita buat secara gratis seperti Vercel, Surge, Netlify, dan Firebase.
