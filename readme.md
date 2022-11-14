@@ -98,7 +98,7 @@ Logged in as xxxxxx@xxx.com
 ```
 
 #### Langkah 3 - Create the Apps
-Langkah selanjtunya adalah kita akan membuat nama dari aplikasi yang akan kita deploy ke heroku dengan perintah:
+Langkah selanjutnya adalah kita akan membuat nama dari aplikasi yang akan kita deploy ke heroku dengan perintah:
 
 ```shell
 heroku create 
@@ -435,7 +435,84 @@ Langkah-langkah yang diperlukan untuk menaruh database kita ke supabase adalah s
 1. (Sampai di sini pada production database belum ada tabel apapun yah !)
 
 ### Backend with Railway
-Pada bagian ini kita akan mencoba untuk 
+Pada bagian ini kita akan mencoba untuk mendeploy aplikasi backend pada [Railway](https://railway.app)
+
+Untuk kode dari backend yang akan dideploy bisa dilihat pada tautan [ini](https://github.com/withered-flowers/education-deploy-apps/tree/master/src/backend)
+
+Pertama-tama kita akan mencoba untuk mendeploy backendnya terlebih dahulu. Untuk kode dari backend ini bisa dilihat pada tautan [ini](https://github.com/withered-flowers/education-deploy-apps/tree/master/src/backend)
+
+Sebenarnya ada banyak sekali tempat atau *cloud provider* yang menyediakan hosting aplikasi backend seperti AWS, GCP, Glitch, Heroku, dkk. Namun yang akan kita gunakan pada pembelajaran ini adalah dengan menggunakan Railway karena:
+1. Gratis
+1. Gratis
+1. Gratis
+
+Tanpa perlu berlama-lama mari kita mencoba deploy aplikasi backend ini dengan Railway.
+
+PS1:  
+Untuk pembelajaran kali ini kita akan menggunakan Railway deployment sepenuhnya via CLI yah !  
+
+Supaya bisa merasakan sensasi menjadi orang *Ops*
+
+PS2:  
+Seluruh langkah yang ada di sini, ada pada dokumentasi Railway, hanya saja disadur dengan gaya *cheatsheet* yah
+
+#### Langkah 1 - Instalasi Railway CLI
+Pertama-tama kita akan menginstall railway-cli terlebih dahulu, dengan asumsi bahwa pada pembelajaran ini kita sudah mengenal nodejs, maka cara temudah untuk menginstall railway-cli adalah dengan menggunakan `npm` itu sendiri, package railway-cli adalah dengan:
+
+```shell
+npm i -g @railway/cli
+```
+
+Sebenarnya ada cara cara lain untuk menginstall railway-cli ini, untuk lebih detilnya bisa membaca di tautan [railway-cli how-to](https://docs.railway.app/develop/cli) yah.
+
+Kemudian setelah menginstall railway-cli ini, kita bisa mengecek apakah railway-cli ini sudah terpasang dengan mengecek version yang terpasang dengan perintah:
+
+```shell
+railway --version
+```
+
+Dan akan muncul output yang kira kira seperti ini  
+(output bisa berbeda tergantung versi yang digunakan)
+
+```shell
+railway version 2.0.13
+```
+
+#### Langkah 2 - Login Railway
+Langkah selanjutnya adalah kita akan login ke railway dengan menggunakan perintah
+
+```shell
+railway login
+```
+
+Kemudian tekan tombol apapun untuk membuka browser dan melakukan login (baik via email ataupun github)
+
+Kita juga bisa menambahkan options `--browserless` pada saat melakukan login (e.g. `railway login --browserless`) apabila kita ingin melakukan proses login pada device lainnya untuk cli yang kita miliki (e.g. login untuk terminal, tapi harus buka browser dari smartphone)
+
+PS1:
+
+Apabila menggunakan opsi `--browserless`, maka untuk email silahkan memasukkan email yang manapun untuk dikirimkan magic link supaya dapat melakukan login
+
+PS2:
+
+Kita hanya diberikan waktu yang sangat sebentar untuk bisa melakukan login (sekitar 5 menit), apabila melewati jendela waktu tersebut silahkan relogin lagi yah !
+
+Apabila sudah selesai login, seharusnya akan ada output seperti berikut:
+
+```shell
+Your pairing code is: xxx-xxxxx-xxxx-xxxxx
+To authenticate with Railway, please go to 
+    https://railway.app/cli-login?d=abcdefghijklmnopqrstuvwxyz
+
+🎉 Logged in as  (xxxx@xxxxxxx.com)
+```
+
+#### Langkah 3 - Create Project
+Langkah selanjutnya adalah kita akan membuat project yang akan kita deploy ke railway dengan perintah: 
+
+```shell
+railway init
+```
 
 ### Frontend with Firebase
 Sama seperti dengan backend, ada banyak cloud provider yang menyediakan fitur untuk mendeploy aplikasi web yang sudah kita buat secara gratis seperti Vercel, Surge, Netlify, dan Firebase.
