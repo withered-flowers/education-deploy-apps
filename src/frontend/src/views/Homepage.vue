@@ -52,6 +52,7 @@ export default {
           this.tableData = responseData.message.data;
         }
       } catch (err) {
+        // In real case, NEVER USE ALERT !
         alert("Something wicked happened");
       }
     },
@@ -60,10 +61,10 @@ export default {
     },
   },
   computed: {
-    computedSecret: function() {
+    computedSecret: function () {
       return this.secretData;
     },
-    computedTableData: function() {
+    computedTableData: function () {
       return this.tableData;
     },
   },
