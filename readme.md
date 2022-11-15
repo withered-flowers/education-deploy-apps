@@ -509,17 +509,22 @@ Sama seperti deployment backend pada Railway, untuk deployment frontend pada fir
 
 Pada frontend ini sendiri kode yang diubah (apabila dibuat dengan cukup baik), adalah hanya memodifikasi base endpoint nya saja.
 
-Sehingga pada kode frontend kita ini, cukup hanya dengan membuka file `frontend/src/main.js`
+Sehingga pada kode frontend kita ini, cukup hanya dengan membuka file `frontend-vue3/src/main.js`
 
 ```javascript
 // File: src/main.js
 
-// TODO: Change baseEndpoint to the project on cloud provider
+// TODO: change this code to provide global variable
+// createApp(App).mount("#app");
+
+// TODO: Change baseUrl to the project on cloud provider
 // Railway = https://xxxx.up.railway.app
-Vue.prototype.$baseEndpoint = "http://localhost:10000";
+const app = createApp(App);
+app.provide("baseUrl", "http://localhost:10000");
+app.mount("#app");
 ```
 
-dan pada kode ini kita akan mengganti baseEndpoint menjadi endpoint Railway App yang sudah di-deploy sebelumnya, yaitu `https://learning-deploy-backend.up.railway.app`
+dan pada kode ini kita akan mengganti baseUrl menjadi endpoint Railway App yang sudah di-deploy sebelumnya, yaitu `https://learning-deploy-backend.up.railway.app`
 
 Sehingga kode frontend kita ini sekarang akan menjadi
 
@@ -528,17 +533,17 @@ Sehingga kode frontend kita ini sekarang akan menjadi
 
 // TODO: Change baseEndpoint to the project on cloud provider
 // Railway = https://xxxx.up.railway.app
-Vue.prototype.$baseEndpoint = "https://learning-deploy-backend.up.railway.app";
+app.provide("baseUrl", "https://learning-deploy-backend.up.railway.app");
 ```
 
 Perhatikan pada alamat di atas, kita menggunakan HTTPS dan sudah tidak menggunakan port lagi.
 
 #### Langkah 5 - Build the Apps
-Dikarenakan kita menggunakan vuejs di dalam aplikasi frontend ini, maka kita perlu untuk mmembuat atau mem-`bundle` aplikasinya terlebih dahulu. 
+Dikarenakan kita menggunakan vuejs di dalam aplikasi FrontEnd ini, maka kita perlu untuk membuat atau mem-`bundle` aplikasinya terlebih dahulu. 
 
-Dalam pembelajaran kali ini, kita akan membundle aplikasi frontend kita dengan `parcel`.
+Dalam pembelajaran kali ini, kita akan membundle aplikasi FrontEnd kita dengan `vite`.
 
-(Apabila menggunakan bundler yang lain, e.g. webpack / vite, disesuaikan saja yah !)
+(Apabila menggunakan bundler yang lain, e.g. parcel / vite, disesuaikan saja yah !)
 
 Kita akan memodifikasi file `package.json` dan menambahkan perintah untuk mem-bundle aplikasi dalam mode production.
 
@@ -551,11 +556,11 @@ File src/frontend/package.json
 scripts: {
   "dev": ...,
   "test": ...,
-  "build": "parcel build index.html -d www"
+  "build": "vite build"
 }
 ```
 
-Dengan menambahkan perintah atau run script `build` tersebut, kita akan mem-bundle aplikasi frontend yang dibuat dan diletakkan pada folder `www` di dalam folder aplikasi frontend.
+Dengan menambahkan perintah atau run script `build` tersebut, kita akan mem-bundle aplikasi FrontEnd yang dibuat dan diletakkan pada folder `dist` di dalam folder aplikasi FrontEnd.
 
 Kemudian kita akan menjalankan script `build` tersebut dengan cara:
 
@@ -568,22 +573,20 @@ Output dari perintah di atas adalah sebagai berikut:
 ```shell
 npm run build
 
-frontend@1.0.0 build
-parcel build index.html -d www
+> frontend-vue3@0.0.0 build
+> vite build
 
-✨  Built in 5.12s.
-
-www/main.0437f4f8.js.map     445.64 KB    529ms
-www/main.0437f4f8.js         116.18 KB    3.36s
-www/main.b7906b4d.css          3.84 KB    208ms
-www/main.b7906b4d.css.map       1.8 KB     55ms
-www/index.html                   453 B    130ms
+vite v3.2.3 building for production...
+✓ 11 modules transformed.
+dist/index.html                  0.41 KiB
+dist/assets/index.491dd89a.css   4.49 KiB / gzip: 1.47 KiB
+dist/assets/index.99e56c25.js    53.00 KiB / gzip: 21.36 KiB
 ```
 
-Perhatikan bahwa pada langkah ini, akan terbentuk sebuah folder baru dengan nama `www` yang berisi file yang akan digunakan untuk deploy pada firebase.
+Perhatikan bahwa pada langkah ini, akan terbentuk sebuah folder baru dengan nama `dist` yang berisi file yang akan digunakan untuk deploy pada firebase.
 
 #### Langkah 6 - Deploy the Apps
-Langkah selanjutnya adalah kita akan men-deploy aplikasi frontend kita pada firebase.
+Langkah selanjutnya adalah kita akan men-deploy aplikasi FrontEnd kita pada firebase.
 
 Untuk ini kita akan menginisialisasi konfigurasi firebase project dengan menggunakan perintah:
 
@@ -612,8 +615,8 @@ will contain Hosting assets to be uploaded with firebase deploy. If you
 have a build process for your assets, use your build's output directory.
 
 ? What do you want to use as your public directory? (public) 
-# Gunakan folder www yang tadi sudah dibuat
-www
+# Gunakan folder dist yang tadi sudah dibuat
+dist
 
 ? Configure as a single-page app (rewrite all urls to /index.html)? (y/N) 
 No
@@ -641,7 +644,7 @@ Kemudian kita hanya butuh untuk menunggu hingga deploy selesai, dan akan diberik
 
 i  deploying hosting
 i  hosting[xxxxx]: beginning deploy...
-i  hosting[xxxxx]: found 8 files in www
+i  hosting[xxxxx]: found 3 files in dist
 ✔  hosting[xxxxx]: file upload complete
 i  hosting[xxxxx]: finalizing version...
 ✔  hosting[xxxxx]: version finalized

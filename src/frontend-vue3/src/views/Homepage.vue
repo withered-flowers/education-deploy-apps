@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
+// TODO: Import inject from vue
+import { inject } from "vue";
 
-// TODO: Change baseUrl to the project on cloud provider
-// Railway = https://xxxx.up.railway.app
-const baseUrl = "https://localhost:10000";
+// TODO: use inject to get global variable from provide
+const baseUrl = inject("baseUrl");
 
 const secretData = ref("");
 const tableData = ref([]);
