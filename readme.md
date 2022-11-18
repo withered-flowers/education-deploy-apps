@@ -1,32 +1,36 @@
 ## Table of Content
+
 1. [What is Production](#what-is-production)
 1. [How to Deploy](#how-to-deploy)
-    * [Database with Supabase](#database-with-supabase)
-    * [Backend with Railway](#backend-with-railway)
-    * [Frontend with Firebase](#frontend-with-firebase)
+   - [Database with Supabase](#database-with-supabase)
+   - [Backend with Railway](#backend-with-railway)
+   - [Frontend with Firebase](#frontend-with-firebase)
 
 ## Persyaratan Dasar
+
 - Mengerti dasar-dasar terminal
 - Sudah menginstall nodejs
-- Sudah menginstall package nodejs `parcel-bundler` secara global, bisa dilihat pada tautan [ini](https://parceljs.org/getting_started.html) 
-  
+
 ## What is Production
-Ketika ketika mengembangkan aplikasi kita, pasti harapannya aplikasi tersebut akan dilihat oleh orang lain bukan?  
 
-Nah kondisi ketika aplikasi yang kita kembangkan siap untuk diliat oleh orang lain, adalah ketika kondisi aplikasi masuk ke tahap *production* atau siap diproduksi. Ketika sudah masuk ke tahap *production* artinya suatu aplikasi akan siap untuk di release atau disebut siap untuk di-*deploy*.
+Ketika ketika mengembangkan aplikasi kita, pasti harapannya aplikasi tersebut akan dilihat oleh orang lain bukan?
 
-Pada pembelajaran kali ini kita akan mencoba untuk men-*deploy* suatu aplikasi yang *ceritanya* sudah masuk tahap *production*. Biar kita tidak berhenti hanya di tahap *development* saja ^_^
+Nah kondisi ketika aplikasi yang kita kembangkan siap untuk diliat oleh orang lain, adalah ketika kondisi aplikasi masuk ke tahap _production_ atau siap diproduksi. Ketika sudah masuk ke tahap _production_ artinya suatu aplikasi akan siap untuk di release atau disebut siap untuk di-_deploy_.
+
+Pada pembelajaran kali ini kita akan mencoba untuk men-_deploy_ suatu aplikasi yang _ceritanya_ sudah masuk tahap _production_. Biar kita tidak berhenti hanya di tahap _development_ saja ^\_^
 
 ## How to Deploy
-Pada pembelajaran ini, kita akan mencoba untuk men-*deploy* sebuah aplikasi sederhana, yang terpisah antara frontend, backend, dan (bahkan) databasenya. Untuk aplikasi frontend-nya dibuat dengan Vue (v3) dan untuk backendnya dibuat dengan expressjs + databasenya menggunakan PostgreSQL yang terpisah dari backendnya.
 
-Untuk deployment ini kita tidak akan terlalu repot dan tidak mengeluarkan uang *sepeserpun* yah karena kita akan developer yang *cerdik* ~~dan pelit~~
+Pada pembelajaran ini, kita akan mencoba untuk men-_deploy_ sebuah aplikasi sederhana, yang terpisah antara frontend, backend, dan (bahkan) databasenya. Untuk aplikasi frontend-nya dibuat dengan Vue (v3) dan untuk backendnya dibuat dengan expressjs + databasenya menggunakan PostgreSQL yang terpisah dari backendnya.
+
+Untuk deployment ini kita tidak akan terlalu repot dan tidak mengeluarkan uang _sepeserpun_ yah karena kita akan developer yang _cerdik_ ~~dan pelit~~
 
 ### Database with Supabase
 
 Untuk membuat sebuah aplikasi yang baik, umumnya kita harus memisahkan tempat tempat deployment yang kita miliki supaya "seakan-akan" kita mengikut trend yang kekinian: `microservices`.
 
 Nah oleh sebab itu, sekarang ini kita pun akan mencoba untuk mendeploy aplikasi kita ke tiga tempat yang berbeda:
+
 - Databasenya akan kita pisah sendiri
 - Server Backendnya akan kita taruh di tempat yang lainnya
 - Hosting Frontendnya pun akan kita taruh di tempat lainnya
@@ -40,6 +44,7 @@ Untuk bisa menaruh database kita di internet, maka kita akan menggunakan suatu s
 Langkah-langkah yang diperlukan untuk menaruh database kita ke supabase adalah seperti berikut:
 
 #### Langkah 1 - Inisialisasi Project di Supabase
+
 1. Membuka tautan [Supabase](https://supabase.com) dan lakukan registrasi (link dengan account github)
 1. Membuat sebuah `Organization` yang baru di dalam supabase yang akan mengepalai project yang akan kita buat untuk menaruh database
 1. Membuat sebuah `Project` yang baru di dalam supabase dan memasukkan `database password` yang diwajibkan (password diminta untuk kuat yah, jadi jangan masukkan password nya adalah `password` atau `bismillah` atau `aminaminamin` yah !)
@@ -52,25 +57,28 @@ Langkah-langkah yang diperlukan untuk menaruh database kita ke supabase adalah s
 1. Sampai pada tahap ini maka inisialisasi project di supabase kita sudah selesai !
 
 #### Langkah 2 - Konfigurasi Sequelize untuk Production
+
 1. Selanjutnya kita akan masuk ke ranah aplikasi kita
 1. Membuka konfigurasi sequelize pada `/config/config.json` dan memodifikasi environment untuk `production`:
-    ```json
-    production: {
-      "use_env_variable": "DATABASE_URL",
-      "dialect": "postgres",
-      "protocol": "postgres"
-    }
-    ```
+   ```json
+   production: {
+     "use_env_variable": "DATABASE_URL",
+     "dialect": "postgres",
+     "protocol": "postgres"
+   }
+   ```
 1. Maksud dari konfigurasi di atas adalah, pada mode `production`, sequelize akan menggunakan environment variable bernama `DATABASE_URL` untuk melakukan koneksi ke database yang digunakan
 1. Sampai pada titik ini artinya untuk konfigurasi sequelize sudah selesai, selanjutnya kita akan beralih untuk deploy aplikasi backend kita.
 1. (Sampai di sini pada production database belum ada tabel apapun yah !)
 
 ### Backend with Railway
+
 Pada bagian ini kita akan mencoba untuk mendeploy aplikasi backend pada [Railway](https://railway.app)
 
 Pertama-tama kita akan mencoba untuk mendeploy backendnya terlebih dahulu. Untuk kode dari backend ini bisa dilihat pada tautan [ini](https://github.com/withered-flowers/education-deploy-apps/tree/master/src/backend-railway)
 
-Sebenarnya ada banyak sekali tempat atau *cloud provider* yang menyediakan hosting aplikasi backend seperti AWS, GCP, Glitch, Heroku, dkk. Namun yang akan kita gunakan pada pembelajaran ini adalah dengan menggunakan Railway karena:
+Sebenarnya ada banyak sekali tempat atau _cloud provider_ yang menyediakan hosting aplikasi backend seperti AWS, GCP, Glitch, Heroku, dkk. Namun yang akan kita gunakan pada pembelajaran ini adalah dengan menggunakan Railway karena:
+
 1. Gratis
 1. Gratis
 1. Gratis
@@ -80,12 +88,13 @@ Tanpa perlu berlama-lama mari kita mencoba deploy aplikasi backend ini dengan Ra
 PS1:  
 Untuk pembelajaran kali ini kita akan menggunakan Railway deployment separuh CLI yah !
 
-Supaya bisa merasakan sensasi menjadi orang *Ops*
+Supaya bisa merasakan sensasi menjadi orang _Ops_
 
 PS2:  
-Seluruh langkah yang ada di sini, ada pada dokumentasi Railway, hanya saja disadur dengan gaya *cheatsheet* yah
+Seluruh langkah yang ada di sini, ada pada dokumentasi Railway, hanya saja disadur dengan gaya _cheatsheet_ yah
 
 #### Langkah 1 - Instalasi Railway CLI
+
 Pertama-tama kita akan menginstall railway-cli terlebih dahulu, dengan asumsi bahwa pada pembelajaran ini kita sudah mengenal nodejs, maka cara temudah untuk menginstall railway-cli adalah dengan menggunakan `npm` itu sendiri, package railway-cli adalah dengan:
 
 ```shell
@@ -108,7 +117,8 @@ railway version 2.0.13
 ```
 
 #### Langkah 2 - Login Railway
-Langkah selanjutnya adalah kita akan login ke railway dengan menggunakan perintah
+
+Langkah selanjutnya adalah kita akan login ke Railway dengan menggunakan perintah
 
 ```shell
 railway login
@@ -130,27 +140,30 @@ Apabila sudah selesai login, seharusnya akan ada output seperti berikut:
 
 ```shell
 Your pairing code is: xxx-xxxxx-xxxx-xxxxx
-To authenticate with Railway, please go to 
+To authenticate with Railway, please go to
     https://railway.app/cli-login?d=abcdefghijklmnopqrstuvwxyz
 
 🎉 Logged in as  (xxxx@xxxxxxx.com)
 ```
 
-Setelah selesai melakukan login, jangan lupa untuk membuka halaman dashboard railway pada [https://railway.app/dashboard](https://railway.app/dashboard) Kemudian agree dengan Terms of Service (ToS) yang dimiliki oleh Railway.
+Setelah selesai melakukan login, jangan lupa untuk membuka halaman dashboard Railway pada [https://railway.app/dashboard](https://railway.app/dashboard) Kemudian agree dengan Terms of Service (ToS) yang dimiliki oleh Railway.
 
 (ToS ini harus diaccept via browser !)
 
 Kemudian kita akan diminta untuk melakukan `Verifikasi Account` yang dapat dilakukan dengan 2 cara:
+
 - Connect to Account Github, yang umurnya lebih dari 90 hari (bila menggunakan login dengan github, dan akun lebih dari 90 hari, skip bagian ini)
 - Memasukkan Virtual Card Number / CC untuk melakukan verifikasi (Pastikan ada saldo minimal 1 USD)
 
 Perbedaan Verified dan Non Verified Account adalah:
+
 - Non Verified Account mendapat saldo 2 USD, hanya sekali saja (tidak direfresh per bulan)
 - Verified Account mendapat saldo 5 USD, recurring (refresh per bulan)
 - Non Verified Account tidak dapat mengupload kodenya untuk dideploy ke Railway, hanya bisa deploy starter pack saja !
 
 #### Langkah 3 - Create Project & Service
-Langkah selanjutnya adalah kita akan masuk ke dalam folder backend yang dimiliki dan membuat project yang akan kita deploy ke railway dengan perintah: 
+
+Langkah selanjutnya adalah kita akan masuk ke dalam folder backend yang dimiliki dan membuat project yang akan kita deploy ke Railway dengan perintah:
 
 ```shell
 cd folder-project-backend
@@ -170,22 +183,25 @@ Import your variables into Railway? No
 
 (Pada saat ini, import variable ke Railway tidak berguna karena Railway belum bisa mengimport environment variable tersebut ke dalam services)
 
-Dan kemudian railway akan membukakan halaman dashboard ke project tersebut.
+Dan kemudian Railway akan membukakan halaman dashboard ke project tersebut.
 
 Pada halaman Dashboard Project tersebut, kita akan menambahkan sebuah `service` yang baru di dalam project Railway itu sendiri.
 
 `service` dalam Railway adalah sebuah tujuan deployment dari aplikasi yang ingin di-serve. TL;DR anggap saja ini adalah nama aplikasi yang ingin dideploy.
 
 Karena di sini kita akan mencoba untuk deploy dari CLI, maka kita akan:
+
 1. Menekan Card yang bertuliskan `Add a service`
 1. Memilih `Empty Service`
-1. Setelah itu kita akan diberikan sebuah service baru dengan nama random, e.g. `utmost-increase`. 
+1. Setelah itu kita akan diberikan sebuah service baru dengan nama random, e.g. `utmost-increase`.
 1. Apabila ingin mengganti nama service itu, maka kita akan mengklik card yang ada nama random tersebut, kemudian memilih `Settings`, pada bagian `Service` jadi setting dengan nama `Service Name` kemudian ganti menjadi nama service yang diinginkan, kemudian tekan icon centang yang ada di sebelah kanan input tersebut.
 
 Sampai pada tahap ini, artinya kita sudah berhasil untuk membuat sebuah Project dan sebuah Service
 
 #### Langkah 4 - Modifikasi kode untuk deployment
+
 Pada saat melakukan deployment, tentunya ada beberapa konfigurasi khusus yang harus kita lakukan yang berbeda dari tahap development, seperti:
+
 - Konfigurasi Environment Variable
 - Konfigurasi database (migration & seeding)
 - Memodifikasi kode supaya bisa dideploy dengan baik
@@ -194,6 +210,7 @@ Pada saat melakukan deployment, tentunya ada beberapa konfigurasi khusus yang ha
 Pada langkah ini kita akan memodifikasi kode yang digunakan untuk tahap production agar siap utuk dideploy tanpa masalah !
 
 ##### Konfigurasi Environment Variable
+
 Pada saat tahap developent tentunya kita sangat umum menggunakan file dotenv (`.env`) sebagai tempat penyimpanan data sensitif kita bukan?
 
 Namun pada tahap production, kita tidak akan menggunakan hal tersebut lagi.
@@ -211,6 +228,7 @@ railway variables set KEY1=VALUE1 KEY2=VALUE2
 ```
 
 Untuk pembelajaran ini, kita sekarang akan memasukkan 2 variable sekaligus:
+
 - `DATABASE_URL` = URI dari postgres yang ada di supabase
 - `SECRET` = secret key yang digunakan dalam aplikasi backend.
 
@@ -231,6 +249,7 @@ SECRET:       inisudahcukupamanlah
 Setelah selesai menambahkan seluruh environment variable yang ada, selanjutnya kita akan melakukan modifikasi kode yang dimiliki supaya bisa digunakan di production.
 
 PS:
+
 - Apabila ingin meng-set environment variable untuk service yang lainnya, maka kita bisa menggunakan opsi `-s`, e.g.:
 
 ```shell
@@ -238,13 +257,14 @@ railway variables set -s NAMA_SERVICE KEY1=VALUE1 KEY2=VALUE2
 ```
 
 ##### Modifikasi Kode
-Pada bagian ini kita akan memodifikasi 2 bagian kode yang digunakan dalam aplikasi nodejs.  
+
+Pada bagian ini kita akan memodifikasi 2 bagian kode yang digunakan dalam aplikasi nodejs.
 
 Ceritanya aplikasi nodejs ini dibuat dengan menggunakan expressjs + sequelize, sehingga dalam tahap production, ada beberapa kode yang harus dimodifikasi, khususnya pada file `app.js` dan `config/config.json`
 
-Pada file `app.js`, kita harus memodifikasi port yang akan digunakan, umumnya memang pada tahap development, express akan menggunakan port 3000. 
+Pada file `app.js`, kita harus memodifikasi port yang akan digunakan, umumnya memang pada tahap development, express akan menggunakan port 3000.
 
-Namun pada saat dideploy, aplikasi ini tentunya akan menggunakan port yang disediakan oleh provider masing masing. 
+Namun pada saat dideploy, aplikasi ini tentunya akan menggunakan port yang disediakan oleh provider masing masing.
 
 Umumnya provider akan menggunakan sebuah environment variabel tambahan dengan nama `PORT`, sehingga pada aplikasi express ini kita harus memodifikasinya supaya bisa menerima environment variabel port.
 
@@ -261,7 +281,7 @@ const port = process.env.PORT || 3000;
 ...
 ```
 
-Selain itu, pada sequelize, umumnya pada tahap development, yang akan digunakan pada file `config.json` nya adalah konfigurasi tahap development, namun pada saat deployment, yang akan digunakan adalah konfigurasi tahap production. 
+Selain itu, pada sequelize, umumnya pada tahap development, yang akan digunakan pada file `config.json` nya adalah konfigurasi tahap development, namun pada saat deployment, yang akan digunakan adalah konfigurasi tahap production.
 
 Kebetulan, karena kita menggunakan environment variable bernama `DATABASE_URL`, maka sekarang kita harus mengkonfigurasinya sebagai berikut:
 
@@ -280,6 +300,7 @@ File: config/config.json
 Sampai di tahap ini artinya kita sudah memodifikasi kode expressjs dan konfigurasi sequelize, selanjutnya kita akan menjalankan perintah untuk melakukan migrasi dan seeding pada production
 
 ##### Konfigurasi Database (Migration & Seeding on Production)
+
 Umumnya bila kita menggunakan sequelize dan kita ingin melakukan migration sampai dengan seeding (pada development), kita akan menggunakan perintah sebagai berikut:
 
 ```shell
@@ -289,6 +310,7 @@ npx sequelize-cli db:seed:all
 ```
 
 Namun pada saat di production, ada beberapa penyesuaian yang harus dilakukan:
+
 - Umumnya database sudah dibuat, sehingga kita tidak perlu menggunakan `db:create` lagi.
 - Pada saat menjalankan kode production, umumnya kita harus menggunakan environment variable khusus production dan memilih environment node yang di-set ke `production`.
 
@@ -299,11 +321,11 @@ npx sequelize-cli --env=production db:migrate
 npx sequelize-cli --env=production db:seed:all
 ```
 
-Namun apabila perintah ini kita jalankan langsung di terminal yang kita miliki, tentunya hal ini akan menyebabkan error, karena kita tidak memiliki environment variable yang dibutuhkan dari railway di dalam aplikasi yang kita buat.
+Namun apabila perintah ini kita jalankan langsung di terminal yang kita miliki, tentunya hal ini akan menyebabkan error, karena kita tidak memiliki environment variable yang dibutuhkan dari Railway di dalam aplikasi yang kita buat.
 
 Nah, bagaimanakah penyelesaiannya?
 
-Untuk itu, kita akan meminta railway untuk menyediakan environment variable yang dimilikinya, dan menjalankan perintah yang ada di komputer lokal kita, dengan menggunakan perintah:
+Untuk itu, kita akan meminta Railway untuk menyediakan environment variable yang dimilikinya, dan menjalankan perintah yang ada di komputer lokal kita, dengan menggunakan perintah:
 
 ```shell
 railway run perintah-yang-ingin-dijalankan
@@ -316,16 +338,18 @@ railway run npx sequelize-cli --env=production db:migrate
 railway run npx sequelize-cli --env=production db:seed:all
 ```
 
-PS:  
+PS:
+
 - Pastikan ketika menggunakan perintah di atas, pada folder yang kita miliki di komputer lokal kita sudah ada `node_modules` nya yah !
 - Bila belum ada, pastikan `npm install` terlebih dahulu package.json yang dibutuhkan di local !
 
 Selanjutnya kita akan menambahkan sedikit script yang dibutuhkan untuk menjalankan aplikasi kita sebelum bisa melakukan deploy aplikasi.
 
 ##### Menambahkan script run
-Pada saat melakukan deployment pada aplikasi berbasis nodejs, tentunya kita harus memiliki sebuah "penjalan" aplikasi, 
 
-Nah "penjalan" aplikasi ini adalah berupa script yang akan dipanggil ketika aplikasi ini akan dijalankan. script ini dapat dilihat pada file `package.json`. 
+Pada saat melakukan deployment pada aplikasi berbasis nodejs, tentunya kita harus memiliki sebuah "penjalan" aplikasi,
+
+Nah "penjalan" aplikasi ini adalah berupa script yang akan dipanggil ketika aplikasi ini akan dijalankan. script ini dapat dilihat pada file `package.json`.
 
 Sekarang kita akan memodifikasi file `package.json` supaya bisa memiliki script untuk menjalankan aplikasi.
 
@@ -347,15 +371,17 @@ Pada json di atas, kita menambahkan sebuah script dengan nama `start` yang akan 
 Sampai di tahap ini kita sudah berhasil menambahkan `run script` untuk aplikasi kita, selanjutnya langkah terakhir, kita akan melakukan deploy aplikasi kita.
 
 #### Langkah 5 - Deploy the Apps
+
 Selanjutnya kita akan mendeploy aplikasi yang sudah dibuat dengan database yang sudah dikonfigurasi ini.
 
-Pada railway, untuk mendeploy aplikasi yang dibuat adalah dengan menggunakan perintah:
+Pada Railway, untuk mendeploy aplikasi yang dibuat adalah dengan menggunakan perintah:
 
 ```shell
 railway up
 ```
 
 Dan kemudian akan diberikan output yang kira kira seperti berikut
+
 ```shell
 ☁️ Build logs available at https://railway.app/project/x-x-x-x/service/y-y-y-y
 
@@ -406,6 +432,7 @@ Dan untuk keluar dari logs, bisa menggunakan `CTRL + C`
 Selanjutnya kita akan kembali ke halaman dashboard supaya bisa mendapatkan domain (`alamat internet`) yang bisa digunakan untuk mengakses aplikasi backend yang sudah dibuat.
 
 Langkahnya adalah sebagai berikut:
+
 1. Membuka kembali halaman dashboard dari Railway
 1. Pilih nama `services` yang sudah dibuat
 1. Pilih tab `Settings`, pada bagian `Environment`, Menekan tombol `Generate Domains`.
@@ -413,11 +440,12 @@ Langkahnya adalah sebagai berikut:
 
 Dan selesai, yay !
 
-Sampai pada titik ini selesai sudah tahapan deploy aplikasi backend kita pada railway ! Hore !!!
+Sampai pada titik ini selesai sudah tahapan deploy aplikasi backend kita pada Railway ! Hore !!!
 
 Selanjutnya adalah tahapan untuk deploy aplikasi frontend kita pada Firebase.
 
 ### Frontend with Firebase
+
 Sama seperti dengan backend, ada banyak cloud provider yang menyediakan fitur untuk mendeploy aplikasi web yang sudah kita buat secara gratis seperti Vercel, Surge, Netlify, dan Firebase.
 
 Pada pembelajaran ini kita akan mendeploy aplikasi frontend kita dengan menggunakan Firebase, lebih tepatnya adalah `Firebase Hosting`.
@@ -427,7 +455,8 @@ Firebase sendiri adalah suatu produk Google yang berisi sekumpulan fitur yang da
 Langkah-langkah deploynya adalah sebagai berikut:
 
 #### Langkah 1 - Instalasi Firebase CLI
-Pertama-tama, sebelum melakukan deployment, kita akan menginstall firebase-cli terlebih dahulu.  
+
+Pertama-tama, sebelum melakukan deployment, kita akan menginstall firebase-cli terlebih dahulu.
 
 Lagi-lagi cara termudah untuk menginstall firebase-cli adalah dengan menggunakan `npm`, dengan menggunakan perintah:
 
@@ -435,7 +464,7 @@ Lagi-lagi cara termudah untuk menginstall firebase-cli adalah dengan menggunakan
 npm install -g firebase-tools
 ```
 
-atau (untuk pengguna yarn) 
+atau (untuk pengguna yarn)
 
 ```shell
 yarn global add firebase-tools
@@ -457,6 +486,7 @@ Dan akan muncul output yang kira kira seperti ini
 ```
 
 #### Langkah 2 - Login Firebase
+
 Langkah selanjutnya adalah kita akan login ke firebase dengan menggunakan perintah
 
 ```shell
@@ -465,7 +495,6 @@ firebase login
 
 Kemudian akan terbuka browser dan diminta untuk melakukan login dengan menggunakan akun GMail.  
 (Firebase tidak dapat menggunakan non-interactive / non-browser mode yah !)
-
 
 Pastikan sampai di tahap ini kita sudah selesai logged in seperti informasi berikut:
 
@@ -476,6 +505,7 @@ Waiting for authentication...
 ```
 
 #### Langkah 4 - Membuat Project dan Apps
+
 Langkah selanjutnya adalah kita akan membuat project dan nama aplikasi yang akan dideploy pada firebase.
 
 Supaya dapat melakukan hosting frontend kita pada firebase, kita akan diminta untuk membuat sebuah project sebagai unique identifier dari aplikasi frontend yang akan di-deploy.
@@ -486,10 +516,11 @@ Hal ini dapat dilakukan dengan menggunakan perintah:
 firebase projects:create NAMA_PROJECT
 ```
 
-dan tekan tombol enter untuk melanjutkan pada saat ditanyakan 
+dan tekan tombol enter untuk melanjutkan pada saat ditanyakan
 `What would you like to call your project?`
 
 Output dari perintah ini adalah:
+
 ```shell
 ✔ Creating Google Cloud Platform project
 ✔ Adding Firebase resources to Google Cloud Platform project
@@ -505,6 +536,7 @@ https://console.firebase.google.com/project/xxxx/overview
 ```
 
 #### Langkah 4 - Modifikasi Kode untuk Deployment
+
 Sama seperti deployment backend pada Railway, untuk deployment frontend pada firebase, kita juga akan melakukan beberapa modifikasi kode supaya siap untuk dideploy.
 
 Pada frontend ini sendiri kode yang diubah (apabila dibuat dengan cukup baik), adalah hanya memodifikasi base endpoint nya saja.
@@ -539,7 +571,8 @@ app.provide("baseUrl", "https://learning-deploy-backend.up.railway.app");
 Perhatikan pada alamat di atas, kita menggunakan HTTPS dan sudah tidak menggunakan port lagi.
 
 #### Langkah 5 - Build the Apps
-Dikarenakan kita menggunakan vuejs di dalam aplikasi FrontEnd ini, maka kita perlu untuk membuat atau mem-`bundle` aplikasinya terlebih dahulu. 
+
+Dikarenakan kita menggunakan vuejs di dalam aplikasi FrontEnd ini, maka kita perlu untuk membuat atau mem-`bundle` aplikasinya terlebih dahulu.
 
 Dalam pembelajaran kali ini, kita akan membundle aplikasi FrontEnd kita dengan `vite`.
 
@@ -586,6 +619,7 @@ dist/assets/index.99e56c25.js    53.00 KiB / gzip: 21.36 KiB
 Perhatikan bahwa pada langkah ini, akan terbentuk sebuah folder baru dengan nama `dist` yang berisi file yang akan digunakan untuk deploy pada firebase.
 
 #### Langkah 6 - Deploy the Apps
+
 Langkah selanjutnya adalah kita akan men-deploy aplikasi FrontEnd kita pada firebase.
 
 Untuk ini kita akan menginisialisasi konfigurasi firebase project dengan menggunakan perintah:
@@ -595,11 +629,12 @@ firebase init hosting
 ```
 
 Kemudian akan diberikan panduan untuk memilih fitur fitur dan project mana yang akan digunakan:
+
 ```shell
 === Project Setup
 
 First, let's associate this project directory with a Firebase project.
-You can create multiple project aliases by running firebase use --add, 
+You can create multiple project aliases by running firebase use --add,
 but for now we'll just set up a default project.
 
 ? Please select an option: (Use arrow keys)
@@ -614,17 +649,17 @@ Your public directory is the folder (relative to your project directory) that
 will contain Hosting assets to be uploaded with firebase deploy. If you
 have a build process for your assets, use your build's output directory.
 
-? What do you want to use as your public directory? (public) 
+? What do you want to use as your public directory? (public)
 # Gunakan folder dist yang tadi sudah dibuat
 dist
 
-? Configure as a single-page app (rewrite all urls to /index.html)? (y/N) 
+? Configure as a single-page app (rewrite all urls to /index.html)? (y/N)
 No
 
 ? Set up automatic builds and deploys with GitHub?
 No
 
-File www/index.html already exists. Overwrite? 
+File www/index.html already exists. Overwrite?
 No
 ```
 
@@ -657,13 +692,14 @@ Project Console: https://console.firebase.google.com/project/xxxxx/overview
 Hosting URL: https://xxxxx.web.app
 ```
 
-Kemudian kita tinggal mencoba untuk membuka aplikasi yang sudah dihosting pada URL tersebut dan *voila* aplikasi sudah terdeploy !
+Kemudian kita tinggal mencoba untuk membuka aplikasi yang sudah dihosting pada URL tersebut dan _voila_ aplikasi sudah terdeploy !
 
 Sampai pada tahap ini artinya kita sudah berhasil mendeploy aplikasi backend dan frontend yang ada pada tempat yang terpisah dan hampir semuanya menggunakan CLI saja !
 
 Selamat !
 
 ## Referensi
+
 - https://docs.railway.app/develop/cli
 - https://docs.railway.app/develop/services
 - https://firebase.google.com/docs/cli
